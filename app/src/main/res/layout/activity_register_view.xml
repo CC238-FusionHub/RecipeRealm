@@ -1,9 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="20dp"
+    android:background="@color/mainbackground"
     tools:context=".RegisterView">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Registro"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        />
+
+    <EditText
+        android:id="@+id/txtRegNom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/fondocaja"
+        android:hint="Nombre"
+        android:layout_marginStart="20dp"
+        android:padding="15dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"
+        android:drawablePadding="8dp"/>
+
+    <EditText
+        android:id="@+id/txtRegApe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/fondocaja"
+        android:hint="Apellidos"
+        android:layout_marginStart="20dp"
+        android:padding="15dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"
+        android:drawablePadding="8dp"/>
+
+    <EditText
+        android:id="@+id/txtRegCorreo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/fondocaja"
+        android:hint="Correo"
+        android:layout_marginStart="20dp"
+        android:padding="15dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"
+        android:drawablePadding="8dp"/>
+
+    <EditText
+        android:id="@+id/txtRegPass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/fondocaja"
+        android:hint="Contraseña"
+        android:layout_marginStart="20dp"
+        android:padding="15dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"
+        android:drawablePadding="8dp"
+        android:inputType="textPassword"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtRegMsg"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        android:textColor="@color/red"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnRegRegistrar"
+        android:text="Registrarse"
+        android:layout_margin="20dp"
+        android:padding="12dp"
+        android:backgroundTint="@color/buttoncolor"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnRegCancelar"
+        android:text="Cancelar"
+        android:layout_marginHorizontal="20dp"
+        android:padding="12dp"
+        android:backgroundTint="@color/red"
+        />
+
+</LinearLayout>
