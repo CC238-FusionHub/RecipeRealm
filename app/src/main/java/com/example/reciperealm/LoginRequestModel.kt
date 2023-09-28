@@ -1,3 +1,6 @@
 package com.example.reciperealm
 
-data class LoginRequestModel()
+data class LoginRequestModel(
+    val email:String,
+    val password:String
+)
