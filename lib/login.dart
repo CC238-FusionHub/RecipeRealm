@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:reciperealm/api/service.dart';
+import 'package:reciperealm/mainmenu.dart';
+import 'package:reciperealm/registerview.dart';
 
 class login extends StatefulWidget {
   const login({super.key});
@@ -19,7 +22,7 @@ class _loginState extends State<login> {
           children: [
             Padding(
               padding: const EdgeInsets.all(5.0),
-              child: Container(
+              child: SizedBox(
                   width: 200,
                   height: 200,
                   child: Image.asset('assets/img/logo.png')
@@ -30,8 +33,8 @@ class _loginState extends State<login> {
               child: TextFormField(
                 controller: txtUsr,
                 decoration: InputDecoration(
-                    hintText: 'Ingrese nombre de usuario',
-                    labelText: 'Usuario',
+                    hintText: 'Ingrese email',
+                    labelText: 'Email',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                     )
@@ -53,21 +56,69 @@ class _loginState extends State<login> {
               ),
             ),
             ElevatedButton(
-                onPressed: (){
-                  setState(() {
-                  });
+                onPressed: () async{
+                  final authService = service();
+                  final result = await authService.authenticateUser(txtUsr.text, txtPass.text);
+                  if (result != null && result['access_token']!="") {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          return mainmenu(); // Replace with your target widget
+                        },
+                      ),
+                    );
+                  } else {
+                    showDialog(context: context,
+                        builder: (BuildContext context){
+                      return AlertDialog(
+                        title: Text("Error"),
+                        content: Text('El usuario o contraseña son incorrectos'),
+                      );
+                      });
+                  }
                 },
-                child: Text("Login",
+                style: ElevatedButton.styleFrom(
+                  primary: const Color(0xFFA2751D),
+                  minimumSize: const Size(200, 50),
+                ),
+                child: const Text("Login",
                   style: TextStyle(
                       fontSize: 16,
-                      fontWeight: FontWeight.bold
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
                   ),)),
-            SizedBox(height: 20,),
-            /*Text('Subtotal: $subt',
-              style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold
-              ),),*/
+            const SizedBox(
+              height: 15.0,
+            ),
+            ElevatedButton(
+                onPressed: (){
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (BuildContext context){
+                        return const registerview();
+                      }));
+                },
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(200, 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  ).copyWith(
+                    side: MaterialStateProperty.resolveWith<BorderSide>(
+                          (Set<MaterialState> states) {
+                        return const BorderSide(
+                          color: Color(0xFFA2751D),
+                          width: 2.0,
+                        );
+                      },
+                    ),
+                  ),
+                child: const Text("Registrarse",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFFA2751D),
+                  ),)),
           ],
         ),
       ),
