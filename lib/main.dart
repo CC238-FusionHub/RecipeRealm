@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:reciperealm/pref/preferencias.dart';
 
 import 'login.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  final prefs = preferencias(); // Create an instance of Preferencias
+  await prefs.init();
   runApp(const MyApp());
 }
 

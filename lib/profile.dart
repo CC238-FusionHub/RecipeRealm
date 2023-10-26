@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:reciperealm/api/service.dart';
+import 'package:reciperealm/createrecipe.dart';
 import 'package:reciperealm/mainmenu.dart';
+import 'package:reciperealm/notifications.dart';
 
-class notifications extends StatefulWidget {
+class profile extends StatefulWidget {
   final String token;
-  const notifications({Key? key, required this.token}) : super(key: key);
+  const profile({Key? key, required this.token}) : super(key: key);
 
   @override
-  State<notifications> createState() => _notificationsState(token: token);
+  State<profile> createState() => _profileState(token: token);
 }
 
-class _notificationsState extends State<notifications> {
+class _profileState extends State<profile> {
   final String token;
-  _notificationsState({required this.token});
+  _profileState({required this.token});
 
   @override
 
@@ -20,7 +22,7 @@ class _notificationsState extends State<notifications> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "CREAR RECETA",
+          "MI PERFIL",
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -47,9 +49,27 @@ class _notificationsState extends State<notifications> {
                   },
                 ),
               );}, icon: Icon(Icons.home, color: Colors.white, size: 40,)),
-            IconButton(onPressed: (){}, icon: Icon(Icons.content_paste, size: 40,)),
-            IconButton(onPressed: (){}, icon: Icon(Icons.email, color: Colors.white, size: 40,)),
-            IconButton(onPressed: (){}, icon: Icon(Icons.person, color: Colors.white, size: 40,)),
+            IconButton(onPressed: (){
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) {
+                    return createrecipe(token: token); // Replace with your target widget
+                  },
+                ),
+              );
+            }, icon: Icon(Icons.content_paste, color: Colors.white, size: 40,)),
+            IconButton(onPressed: (){
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) {
+                    return notifications(token: token); // Replace with your target widget
+                  },
+                ),
+              );
+            }, icon: Icon(Icons.email, color: Colors.white, size: 40,)),
+            IconButton(onPressed: (){}, icon: Icon(Icons.person, size: 40,)),
             IconButton(onPressed: (){}, icon: Icon(Icons.more_horiz, color: Colors.white, size: 40,)),
           ],
         ),
