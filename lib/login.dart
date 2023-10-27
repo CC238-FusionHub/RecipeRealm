@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:reciperealm/RootScreen.dart';
 import 'package:reciperealm/api/service.dart';
-import 'package:reciperealm/mainmenu.dart';
 import 'package:reciperealm/registerview.dart';
 import 'package:reciperealm/pref/preferencias.dart';
 
@@ -68,7 +68,7 @@ class _loginState extends State<login> {
                       context,
                       MaterialPageRoute(
                         builder: (BuildContext context) {
-                          return mainmenu(token: pref.token); // Replace with your target widget
+                          return RootScreen(token: pref.token); // Replace with your target widget
                         },
                       ),
                     );

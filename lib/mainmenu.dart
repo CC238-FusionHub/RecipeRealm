@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reciperealm/api/service.dart';
-import 'package:reciperealm/notifications.dart';
-import 'package:reciperealm/profile.dart';
-
 import 'api/Recipe.dart';
-import 'createrecipe.dart';
 
 class mainmenu extends StatefulWidget {
   final String token;
@@ -73,47 +69,6 @@ class _mainmenuState extends State<mainmenu> {
             },
           );
         },
-      ),
-      bottomNavigationBar: BottomAppBar(
-        color: const Color(0xFFA2751D),
-        elevation: 2,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            IconButton(onPressed: (){}, icon: Icon(Icons.home, size: 40,)),
-            IconButton(onPressed: (){
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) {
-                    return createrecipe(token: token); // Replace with your target widget
-                  },
-                ),
-              );
-            }, icon: Icon(Icons.content_paste, color: Colors.white, size: 40,)),
-            IconButton(onPressed: (){
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) {
-                    return notifications(token: token); // Replace with your target widget
-                  },
-                ),
-              );
-            }, icon: Icon(Icons.email, color: Colors.white, size: 40,)),
-            IconButton(onPressed: (){
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) {
-                    return profile(token: token); // Replace with your target widget
-                  },
-                ),
-              );
-            }, icon: Icon(Icons.person, color: Colors.white, size: 40,)),
-            IconButton(onPressed: (){}, icon: Icon(Icons.more_horiz, color: Colors.white, size: 40,)),
-          ],
-        ),
       ),
     );
   }
