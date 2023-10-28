@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:reciperealm/profile.dart';
+import 'package:reciperealm/Profile.dart';
 import 'package:reciperealm/widgets/custom_bottom_app_bar.dart';
 import 'createrecipe.dart';
 import 'mainmenu.dart';
@@ -31,7 +31,7 @@ class _RootScreenState extends State<RootScreen> {
       mainmenu(token: token),
       createrecipe(token: token),
       notifications(token: token),
-      profile(token: token)
+      Profile(token: token)
     ];
 
     return Scaffold(
@@ -45,7 +45,6 @@ class _RootScreenState extends State<RootScreen> {
   }
 }
 
-// Widget de marcador de posición para representar tus pantallas
 class PlaceholderWidget extends StatelessWidget {
   final Color color;
 

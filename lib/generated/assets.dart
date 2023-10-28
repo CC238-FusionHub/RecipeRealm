@@ -5,5 +5,5 @@ class Assets {
   static const String assetsImgLogo = 'assets/img/logo.png';
   static const String imgLogo = 'assets/img/logo.jpg';
   static const String imgDefaultProfileImage = 'assets/img/default_profile_image.png';
-
+  static const String imgDefaultBannerImage = 'assets/img/default-banner.jpg';
 }
