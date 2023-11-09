@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reciperealm/Profile.dart';
 import 'package:reciperealm/widgets/custom_bottom_app_bar.dart';
+import 'Options.dart';
 import 'createrecipe.dart';
 import 'mainmenu.dart';
 import 'notifications.dart';
@@ -31,7 +32,8 @@ class _RootScreenState extends State<RootScreen> {
       mainmenu(token: token),
       createrecipe(token: token),
       notifications(token: token),
-      Profile(token: token)
+      Profile(token: token),
+      Options(token: token)
     ];
 
     return Scaffold(

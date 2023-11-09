@@ -56,10 +56,10 @@ class CustomBottomAppBar extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: () => updateIndex(0),
+            onPressed: () => updateIndex(4),
             icon: Icon(
               Icons.more_horiz,
-              color: currentIndex == 0 ? selectedColor : unselectedColor,
+              color: currentIndex == 4 ? selectedColor : unselectedColor,
               size: 40,
             ),
           ),

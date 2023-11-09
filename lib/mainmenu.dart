@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reciperealm/api/service.dart';
+import 'package:reciperealm/widgets/LogoutButton.dart';
 import 'api/Recipe.dart';
 
 class mainmenu extends StatefulWidget {
@@ -20,24 +21,30 @@ class _mainmenuState extends State<mainmenu> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.restaurant_menu),
-            SizedBox(width: 10),
-            const Text(
-              "Descubrir",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+        title: const Padding(
+          padding: EdgeInsets.only(left: 15.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.search),
+              SizedBox(width: 10),
+              Text(
+                "Descubrir",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         backgroundColor: const Color(0xFFA2751D),
         elevation: 2,
         iconTheme: const IconThemeData(color: Colors.white),
         centerTitle: true,
+        actions: <Widget>[
+          LogoutButton()
+        ],
       ),
       body: FutureBuilder<List<Recipe>>(
         // Specify the type of data you're expecting

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:reciperealm/api/UserService.dart';
+import 'package:reciperealm/widgets/LogoutButton.dart';
 import 'EditProfile.dart';
 import 'FullScreenImagePage.dart';
 import 'generated/assets.dart';
@@ -86,18 +87,30 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "MI PERFIL",
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
+        title: const Padding(
+          padding: EdgeInsets.only(left: 30.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.person),
+              SizedBox(width: 10),
+              Text(
+                "Mi perfil",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ],
           ),
         ),
         backgroundColor: const Color(0xFFA2751D),
         elevation: 2,
         iconTheme: const IconThemeData(color: Colors.white),
         centerTitle: true,
+        actions: <Widget>[
+          LogoutButton()
+        ],
       ),
       body: FutureBuilder(
         future: _profileData,

@@ -61,6 +61,10 @@ class _loginState extends State<login> {
                 onPressed: () async{
                   final authService = service();
                   final result = await authService.authenticateUser(txtUsr.text, txtPass.text);
+                  setState(() {
+                    txtUsr.text="";
+                    txtPass.text="";
+                  });
                   if (result != null && result['access_token']!="") {
                     pref.token=result['access_token']!;
                     pref.guardarToken();
@@ -97,6 +101,10 @@ class _loginState extends State<login> {
             ),
             ElevatedButton(
                 onPressed: (){
+                  setState(() {
+                    txtUsr.text="";
+                    txtPass.text="";
+                  });
                   Navigator.push(context,
                       MaterialPageRoute(builder: (BuildContext context){
                         return const registerview();
