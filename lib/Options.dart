@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:reciperealm/widgets/LogoutButton.dart';
 
-class createrecipe extends StatefulWidget {
+class Options extends StatefulWidget {
   final String token;
-  const createrecipe({Key? key, required this.token}) : super(key: key);
+  const Options({Key? key, required this.token}) : super(key: key);
 
   @override
-  State<createrecipe> createState() => _createrecipeState(token: token);
+  State<Options> createState() => _OptionsState(token: token);
 }
 
-class _createrecipeState extends State<createrecipe> {
+class _OptionsState extends State<Options> {
   final String token;
-  _createrecipeState({required this.token});
+  _OptionsState({required this.token});
 
   @override
 
@@ -19,14 +19,14 @@ class _createrecipeState extends State<createrecipe> {
     return Scaffold(
       appBar: AppBar(
         title: const Padding(
-          padding: EdgeInsets.only(left: 15.0),
+          padding: EdgeInsets.only(left: 30.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.restaurant_menu),
+              Icon(Icons.settings),
               SizedBox(width: 10),
               Text(
-                "Crear receta",
+                "Opciones",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.white,

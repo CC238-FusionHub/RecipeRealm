@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:reciperealm/RootScreen.dart';
 import 'package:reciperealm/api/service.dart';
-import 'package:reciperealm/mainmenu.dart';
 import 'package:reciperealm/registerview.dart';
 import 'package:reciperealm/pref/preferencias.dart';
 
@@ -61,6 +61,10 @@ class _loginState extends State<login> {
                 onPressed: () async{
                   final authService = service();
                   final result = await authService.authenticateUser(txtUsr.text, txtPass.text);
+                  setState(() {
+                    txtUsr.text="";
+                    txtPass.text="";
+                  });
                   if (result != null && result['access_token']!="") {
                     pref.token=result['access_token']!;
                     pref.guardarToken();
@@ -68,7 +72,7 @@ class _loginState extends State<login> {
                       context,
                       MaterialPageRoute(
                         builder: (BuildContext context) {
-                          return mainmenu(token: pref.token); // Replace with your target widget
+                          return RootScreen(token: pref.token); // Replace with your target widget
                         },
                       ),
                     );
@@ -97,6 +101,10 @@ class _loginState extends State<login> {
             ),
             ElevatedButton(
                 onPressed: (){
+                  setState(() {
+                    txtUsr.text="";
+                    txtPass.text="";
+                  });
                   Navigator.push(context,
                       MaterialPageRoute(builder: (BuildContext context){
                         return const registerview();
