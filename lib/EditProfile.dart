@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:reciperealm/RootScreen.dart';
@@ -10,7 +9,6 @@ import 'package:reciperealm/generated/assets.dart';
 import 'package:reciperealm/widgets/ImageEditDialog.dart';
 import 'api/UserService.dart';
 import 'data/UserDto.dart';
-import 'package:geolocator/geolocator.dart';
 
 class EditProfile extends StatefulWidget {
   final String token;
@@ -41,37 +39,13 @@ class _EditProfileState extends State<EditProfile> {
   void initState() {
     super.initState();
     _profileData = fetchProfileData();
-    _getCurrentLocation();
+    //_getCurrentLocation();
   }
 
   Future<void> _requestLocationPermission() async {
     var status = await Permission.location.status;
     if (!status.isGranted) {
       await Permission.location.request();
-    }
-  }
-
-  Future<void> _getCurrentLocation() async {
-    await _requestLocationPermission();
-    try {
-      Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.best);
-      List<Placemark> placemarks =
-          await placemarkFromCoordinates(position.latitude, position.longitude);
-      if (placemarks.isNotEmpty) {
-        setState(() {
-          _currentLocation =
-              "${placemarks[0].locality}, ${placemarks[0].administrativeArea}";
-        });
-      } else {
-        print("No se pudo obtener el placemark de las coordenadas.");
-      }
-      setState(() {
-        _currentLocation =
-            "${placemarks[0].locality}, ${placemarks[0].administrativeArea}";
-      });
-    } catch (e) {
-      print("Error obteniendo ubicación: $e");
     }
   }
 
@@ -327,23 +301,8 @@ class _EditProfileState extends State<EditProfile> {
                               decoration:
                                   const InputDecoration(labelText: 'Apellido'),
                             ),
-                            DropdownButtonFormField<String>(
-                              value: _locationController.text.isEmpty
-                                  ? _currentLocation
-                                  : _locationController.text,
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  _locationController.text = newValue!;
-                                });
-                              },
-                              items: [
-                                if (_currentLocation != null)
-                                  DropdownMenuItem<String>(
-                                    value: _currentLocation,
-                                    child: Text(_currentLocation!),
-                                  ),
-                              ],
-                            ),
+
+
                             TextFormField(
                               controller: _bioController,
                               decoration:

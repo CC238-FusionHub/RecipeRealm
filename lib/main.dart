@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reciperealm/pref/preferencias.dart';
-
-import 'login.dart';
+import 'package:reciperealm/splash_screen.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,7 +21,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: login(),
+      home: SplashScreen(),
     );
   }
 }
