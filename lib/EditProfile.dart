@@ -8,7 +8,7 @@ import 'package:reciperealm/RootScreen.dart';
 import 'package:reciperealm/generated/assets.dart';
 import 'package:reciperealm/widgets/ImageEditDialog.dart';
 import 'api/UserService.dart';
-import 'data/UserDto.dart';
+import 'data/User.dart';
 
 class EditProfile extends StatefulWidget {
   final String token;
@@ -172,7 +172,7 @@ class _EditProfileState extends State<EditProfile> {
         bannerImageBytes = _bannerBytes;
       }
 
-      final updatedUser = UserDto(
+      final updatedUser = User(
         firstName: _firstNameController.text,
         lastName: _lastNameController.text,
         location: _locationController.text,

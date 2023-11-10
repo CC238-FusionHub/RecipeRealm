@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:reciperealm/api/service.dart';
+import 'package:reciperealm/api/RecipeService.dart';
 import 'package:reciperealm/widgets/LogoutButton.dart';
-import 'api/Recipe.dart';
+import 'package:reciperealm/widgets/recipe_card.dart';
+
+import '../data/Recipe.dart';
 
 class mainmenu extends StatefulWidget {
   final String token;
@@ -11,11 +13,23 @@ class mainmenu extends StatefulWidget {
   State<mainmenu> createState() => _mainmenuState(token: token);
 }
 
-class _mainmenuState extends State<mainmenu> {
+class _mainmenuState extends State<mainmenu> with SingleTickerProviderStateMixin {
   final String token;
   _mainmenuState({required this.token});
+  late TabController _tabController;
+  RecipeService myService = RecipeService();
 
-  service myService = service();
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,46 +56,47 @@ class _mainmenuState extends State<mainmenu> {
         elevation: 2,
         iconTheme: const IconThemeData(color: Colors.white),
         centerTitle: true,
-        actions: <Widget>[
-          LogoutButton()
-        ],
+        actions: <Widget>[LogoutButton()],
+        bottom: TabBar(
+          controller: _tabController,
+          tabs: [
+            Tab(text: "Nuevos"),
+            Tab(text: "Populares"),
+            Tab(text: "Siguiendo"),
+          ],
+        ),
       ),
-      body: FutureBuilder<List<Recipe>>(
-        // Specify the type of data you're expecting
-        initialData: [],
-        future: myService.getRecipes(token),
-        builder: (context, AsyncSnapshot<List<Recipe>> snapshot) {
-          // Handle the snapshot and build the list of items
-          return ListView.builder(
-            itemCount: snapshot.data?.length ?? 0,
-            itemBuilder: (context, index) {
-              var receta = snapshot.data![index];
-              return Container(
-                height: 100,
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            width: 250,
-                            child: Column(
-                              children: [
-                                Text('ID: ${receta.id}'),
-                              ],
-                            ),
-                          ),
-                          //Image.network('${usuario.avatar}', width: 100, height: 70,)
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              );
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          FutureBuilder<List<Recipe>>(
+            future: myService.getRecipes(widget.token),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return Center(child: Text('No recipes found'));
+              } else {
+                return ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    Recipe recipe = snapshot.data![index];
+                    return RecipeCard(
+                      title: recipe.name,
+                      rating: '0',
+                      cookTime: recipe.cookTime,
+                      thumbnailUrl: recipe.imageLink?? '',
+                    );
+                  },
+                );
+              }
             },
-          );
-        },
+          ),
+          Center(child: Text('Contenido de Populares')),
+          Center(child: Text('Contenido de Siguiendo')),
+        ],
       ),
     );
   }

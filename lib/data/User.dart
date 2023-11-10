@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-class UserDto {
+class User {
   final String firstName;
   final String lastName;
   final String location;
@@ -9,7 +9,7 @@ class UserDto {
   final List<int>? profileImage;
   final List<int>? bannerImage;
 
-  UserDto({
+  User({
     required this.firstName,
     required this.lastName,
     required this.location,
@@ -19,8 +19,8 @@ class UserDto {
     this.bannerImage,
   });
 
-  factory UserDto.fromJson(Map<String, dynamic> json) {
-    return UserDto(
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
       firstName: json['firstName'] ?? '',
       lastName: json['lastName'] ?? '',
       location: json['location'] ?? '',

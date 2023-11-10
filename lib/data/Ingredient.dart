@@ -1,0 +1,17 @@
+class Ingredient {
+  String name;
+
+  Ingredient({required this.name});
+
+  factory Ingredient.fromJson(Map<String, dynamic> json) {
+    return Ingredient(
+      name: json['name'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+    };
+  }
+}

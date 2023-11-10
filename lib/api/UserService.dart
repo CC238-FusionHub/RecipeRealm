@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'dart:io';
 
-import '../data/UserDto.dart';
+import '../data/User.dart';
 
 class UserService {
   final String baseUrl;
@@ -79,7 +79,7 @@ class UserService {
     }
   }
 
-  Future<Map<String, dynamic>> updateUserProfile(String token, UserDto userDto) async {
+  Future<Map<String, dynamic>> updateUserProfile(String token, User userDto) async {
     final Uri uri = Uri.parse('$baseUrl/api/v1/user/update-profile');
     final headers = {
       'Authorization': 'Bearer $token',
