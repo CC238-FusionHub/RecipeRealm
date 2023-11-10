@@ -78,7 +78,7 @@ class RecipeCard extends StatelessWidget {
                         size: 18,
                       ),
                       SizedBox(width: 7),
-                      Text(rating),
+                      Text(rating, style: TextStyle(color: Colors.white)),
                     ],
                   ),
                 ),
@@ -97,7 +97,7 @@ class RecipeCard extends StatelessWidget {
                         size: 18,
                       ),
                       SizedBox(width: 7),
-                      Text(cookTime),
+                      Text(cookTime, style: TextStyle(color: Colors.white)),
                     ],
                   ),
                 )
