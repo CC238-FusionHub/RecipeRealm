@@ -1,14 +1,13 @@
-import 'RecipeDetail.dart';
+import 'RecipeSteps.dart';
 
 class Recipe {
   final int id;
   final String name;
   final String description;
   final String cookTime;
-  final List<String> steps;
+  final List<RecipeStep> steps;
   final String? videoLink;
   final String? imageLink;
-  final List<RecipeDetail> details;
 
   Recipe({
     required this.id,
@@ -18,33 +17,33 @@ class Recipe {
     required this.steps,
     this.videoLink,
     this.imageLink,
-    required this.details,
   });
 
   factory Recipe.fromJson(Map<String, dynamic> json) {
-    var list = json['details'] as List;
-    List<RecipeDetail> detailsList = list.map((i) => RecipeDetail.fromJson(i)).toList();
+    var stepsList = (json['steps'] as List)
+        .map((item) => RecipeStep.fromJson(item))
+        .toList();
 
     return Recipe(
       id: json['id'],
       name: json['name'],
       description: json['description'],
       cookTime: json['cookTime'],
-      steps: List<String>.from(json['steps']),
+      steps: stepsList,
       videoLink: json['videoLink'],
       imageLink: json['imageLink'],
-      details: detailsList,
     );
   }
 
-  Map<String, dynamic> toJson() => {
-    'id': id,
-    'name': name,
-    'description': description,
-    'cookTime': cookTime,
-    'steps': steps,
-    'videoLink': videoLink ?? '',
-    'imageLink': imageLink  ?? '',
-    'details': details.map((detail) => detail.toJson()).toList(),
-  };
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'description': description,
+      'cookTime': cookTime,
+      'steps': steps.map((step) => step.toJson()).toList(),
+      'videoLink': videoLink ?? '',
+      'imageLink': imageLink ?? '',
+    };
+  }
 }

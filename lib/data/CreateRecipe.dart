@@ -1,11 +1,12 @@
-import 'RecipeDetail.dart';
+import 'RecipeSteps.dart';
 
 class CreateRecipe {
   final int? id;
   final String name;
   final String description;
+  final String ingredients;
   final String cookTime;
-  final List<String>? steps;
+  final List<RecipeStep>? steps;
   final String? videoLink;
   final String? imageLink;
 
@@ -14,18 +15,22 @@ class CreateRecipe {
     required this.name,
     required this.description,
     required this.cookTime,
+    required this.ingredients,
     this.steps,
     this.videoLink,
     this.imageLink,
   });
 
   factory CreateRecipe.fromJson(Map<String, dynamic> json) {
-    List<String> stepsList = (json['steps'] as List?)?.map((item) => item as String).toList() ?? [];
+    var stepsList = (json['steps'] as List?)
+        ?.map((item) => RecipeStep.fromJson(item))
+        .toList();
 
     return CreateRecipe(
       id: json['id'],
       name: json['name'],
       description: json['description'],
+      ingredients: json['ingredients'],
       cookTime: json['cookTime'],
       steps: stepsList,
       videoLink: json['videoLink'],
@@ -35,13 +40,14 @@ class CreateRecipe {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'name': name,
       'description': description,
+      'ingredients': ingredients,
       'cookTime': cookTime,
-      'steps': steps,
-      'videoLink': videoLink,
-      'imageLink': imageLink,
+      'steps': steps?.map((step) => step.toJson()).toList(),
+      'videoLink': videoLink ?? '',
+      'imageLink': imageLink ?? '',
     };
   }
-
 }

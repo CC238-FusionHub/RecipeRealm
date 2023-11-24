@@ -76,21 +76,26 @@ class _mainmenuState extends State<mainmenu> with SingleTickerProviderStateMixin
                 return Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 return Center(child: Text('Error: ${snapshot.error}'));
-              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return Center(child: Text('No recipes found'));
+              } else if (snapshot.hasData) {
+                if (snapshot.data != null && snapshot.data is List<Recipe>) {
+                  return ListView.builder(
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      Recipe recipe = snapshot.data![index];
+                      return RecipeCard(
+                        title: recipe.name,
+                        rating: '0',
+                        cookTime: recipe.cookTime,
+                        thumbnailUrl: recipe.imageLink ?? '',
+                      );
+                    },
+                  );
+                } else {
+                  return Center(child: Text('No recipes found'));
+                }
               } else {
-                return ListView.builder(
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    Recipe recipe = snapshot.data![index];
-                    return RecipeCard(
-                      title: recipe.name,
-                      rating: '0',
-                      cookTime: recipe.cookTime,
-                      thumbnailUrl: recipe.imageLink?? '',
-                    );
-                  },
-                );
+                // Si snapshot.data es nulo, se maneja aquí.
+                return Center(child: Text('No recipes found'));
               }
             },
           ),

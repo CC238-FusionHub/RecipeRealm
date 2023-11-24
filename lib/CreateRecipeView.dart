@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:reciperealm/mainmenu.dart';
 import 'package:reciperealm/widgets/LogoutButton.dart';
+import 'package:reciperealm/api/RecipeService.dart';
+import 'package:reciperealm/data/CreateRecipe.dart';
 
-import 'AddRecipeDetailsView.dart';
-import 'api/RecipeService.dart';
-import 'data/CreateRecipe.dart';
-
+import 'data/RecipeSteps.dart';
 
 class CreateRecipeView extends StatefulWidget {
   final String token;
@@ -16,68 +16,95 @@ class CreateRecipeView extends StatefulWidget {
 
 class _CreateRecipeViewState extends State<CreateRecipeView> {
   final _formKey = GlobalKey<FormState>();
-  String name = '';
-  String description = '';
-  String cookTime = '';
-  String videoLink = '';
-  String imageLink = '';
-  List<String> steps = [];
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _cookTimeController = TextEditingController();
+  final TextEditingController _ingredientsController = TextEditingController();
+  final TextEditingController _videoLinkController = TextEditingController();
+  final TextEditingController _imageLinkController = TextEditingController();
+  List<TextEditingController> _stepControllers = [TextEditingController()];
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _descriptionController.dispose();
+    _cookTimeController.dispose();
+    _ingredientsController.dispose();
+    _videoLinkController.dispose();
+    _imageLinkController.dispose();
+    _stepControllers.forEach((controller) => controller.dispose());
+    super.dispose();
+  }
+
+  void _addNewStep() {
+    setState(() {
+      _stepControllers.add(TextEditingController());
+    });
+  }
+
+  void _removeStep(int index) {
+    setState(() {
+      _stepControllers[index].dispose();
+      _stepControllers.removeAt(index);
+    });
+  }
 
   void _saveRecipe() async {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
+    final List<RecipeStep> steps = _stepControllers.map((controller) => RecipeStep(description: controller.text)).toList();
+    final CreateRecipe newRecipe = CreateRecipe(
+      name: _nameController.text,
+      description: _descriptionController.text,
+      ingredients: _ingredientsController.text,
+      cookTime: _cookTimeController.text,
+      steps: steps,
+      videoLink: _videoLinkController.text,
+      imageLink: _imageLinkController.text,
+    );
 
-      try {
-        CreateRecipe newRecipe = CreateRecipe(
-          name: name,
-          description: description,
-          cookTime: cookTime,
-          steps: steps,
-          videoLink: videoLink,
-          imageLink: imageLink,
-        );
-
-        CreateRecipe createdRecipe = await RecipeService().createRecipe(newRecipe, widget.token);
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => AddRecipeDetailsView(recipeId: createdRecipe.id!, token: widget.token),
-          ),
-        );
-      } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error al crear la receta: $e')));
-      }
+    try {
+      final CreateRecipe createdRecipe = await RecipeService().createRecipe(newRecipe, widget.token);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => mainmenu(token: widget.token),  // Asegúrate de que MainMenu esté importado correctamente
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error al crear la receta: $e')));
     }
+  }
+
+  Widget _buildStepInput(int index) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Expanded(
+            child: TextFormField(
+              controller: _stepControllers[index],
+              decoration: InputDecoration(
+                labelText: 'Paso ${index + 1}',
+                border: OutlineInputBorder(),
+              ),
+              maxLines: null,
+            ),
+          ),
+          IconButton(
+            icon: Icon(Icons.remove_circle_outline),
+            onPressed: () => _removeStep(index),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Padding(
-          padding: EdgeInsets.only(left: 15.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.restaurant_menu),
-              SizedBox(width: 10),
-              Text(
-                "Crear receta",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
-        ),
-        backgroundColor: const Color(0xFFA2751D),
-        elevation: 2,
-        iconTheme: const IconThemeData(color: Colors.white),
-        centerTitle: true,
-        actions: <Widget>[
-          LogoutButton()
-        ],
+        title: const Text("Crear receta"),
+        actions: <Widget>[LogoutButton()],
       ),
       body: Form(
         key: _formKey,
@@ -85,29 +112,39 @@ class _CreateRecipeViewState extends State<CreateRecipeView> {
           padding: EdgeInsets.all(16.0),
           children: <Widget>[
             TextFormField(
+              controller: _nameController,
               decoration: InputDecoration(labelText: 'Nombre de la Receta'),
-              onSaved: (value) => name = value!,
               validator: (value) => value!.isEmpty ? 'Por favor ingresa un nombre' : null,
             ),
             TextFormField(
+              controller: _descriptionController,
               decoration: InputDecoration(labelText: 'Descripción'),
-              onSaved: (value) => description = value!,
             ),
             TextFormField(
+              controller: _ingredientsController,
+              decoration: InputDecoration(labelText: 'Ingredientes'),
+              maxLines: null, // Hace que el campo sea expansible
+            ),
+            TextFormField(
+              controller: _cookTimeController,
               decoration: InputDecoration(labelText: 'Tiempo de Cocción'),
-              onSaved: (value) => cookTime = value!,
             ),
             TextFormField(
+              controller: _videoLinkController,
               decoration: InputDecoration(labelText: 'Enlace de Video'),
-              onSaved: (value) => videoLink = value!,
             ),
             TextFormField(
+              controller: _imageLinkController,
               decoration: InputDecoration(labelText: 'Enlace de Imagen'),
-              onSaved: (value) => imageLink = value!,
+            ),
+            ...List.generate(_stepControllers.length, (index) => _buildStepInput(index)),
+            TextButton(
+              child: Text('+ Añadir Paso'),
+              onPressed: _addNewStep,
             ),
             ElevatedButton(
-              onPressed: _saveRecipe,
               child: Text('Guardar Receta'),
+              onPressed: _saveRecipe,
             ),
           ],
         ),

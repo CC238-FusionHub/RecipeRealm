@@ -18,11 +18,15 @@ class RecipeService {
     );
 
     if (response.statusCode == 200) {
-      List<dynamic> body = jsonDecode(response.body);
-      List<Recipe> recipes = body.map((dynamic item) => Recipe.fromJson(item)).toList();
-      return recipes;
+      final body = jsonDecode(response.body);
+      print('Response body: $body');
+      if (body is List) {
+        return body.map((dynamic item) => Recipe.fromJson(item)).toList();
+      } else {
+        throw Exception('Invalid format for recipes');
+      }
     } else {
-      throw Exception('Failed to load recipes');
+      throw Exception('Failed to load recipes. Status code: ${response.statusCode}');
     }
   }
 
@@ -37,6 +41,11 @@ class RecipeService {
   }
 
   Future<CreateRecipe> createRecipe(CreateRecipe createRecipe, String token) async {
+
+    String requestBody = json.encode(createRecipe.toJson());
+    print("Request Body: $requestBody");
+
+
     final response = await http.post(
       Uri.parse(baseUrl),
       headers: <String, String>{
