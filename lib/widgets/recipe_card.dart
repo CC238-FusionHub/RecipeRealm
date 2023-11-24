@@ -5,15 +5,19 @@ class RecipeCard extends StatelessWidget {
   final String rating;
   final String cookTime;
   final String thumbnailUrl;
+  final VoidCallback onCardTap;
   RecipeCard({
     required this.title,
     required this.cookTime,
     required this.rating,
     required this.thumbnailUrl,
+    required this.onCardTap,
   });
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+        onTap: onCardTap,
+        child: Container(
       margin: EdgeInsets.symmetric(horizontal: 22, vertical: 10),
       width: MediaQuery.of(context).size.width,
       height: 180,
@@ -107,6 +111,6 @@ class RecipeCard extends StatelessWidget {
           ),
         ],
       ),
-    );
+    ));
   }
 }

@@ -4,6 +4,7 @@ import 'package:reciperealm/widgets/LogoutButton.dart';
 import 'package:reciperealm/widgets/recipe_card.dart';
 
 import '../data/Recipe.dart';
+import 'RecipeDetailView.dart';
 
 class mainmenu extends StatefulWidget {
   final String token;
@@ -87,6 +88,14 @@ class _mainmenuState extends State<mainmenu> with SingleTickerProviderStateMixin
                         rating: '0',
                         cookTime: recipe.cookTime,
                         thumbnailUrl: recipe.imageLink ?? '',
+                          onCardTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => RecipeDetailView(recipe: recipe),  // Asegúrate de pasar el objeto de receta correcto
+                              ),
+                            );
+                          },
                       );
                     },
                   );

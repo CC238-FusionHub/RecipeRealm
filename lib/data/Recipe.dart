@@ -5,6 +5,7 @@ class Recipe {
   final String name;
   final String description;
   final String cookTime;
+  final String ingredients;
   final List<RecipeStep> steps;
   final String? videoLink;
   final String? imageLink;
@@ -14,6 +15,7 @@ class Recipe {
     required this.name,
     required this.description,
     required this.cookTime,
+    required this.ingredients,
     required this.steps,
     this.videoLink,
     this.imageLink,
@@ -29,6 +31,7 @@ class Recipe {
       name: json['name'],
       description: json['description'],
       cookTime: json['cookTime'],
+      ingredients: json['ingredients'],
       steps: stepsList,
       videoLink: json['videoLink'],
       imageLink: json['imageLink'],
@@ -41,6 +44,7 @@ class Recipe {
       'name': name,
       'description': description,
       'cookTime': cookTime,
+      'ingredients': ingredients,
       'steps': steps.map((step) => step.toJson()).toList(),
       'videoLink': videoLink ?? '',
       'imageLink': imageLink ?? '',
