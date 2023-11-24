@@ -4,6 +4,7 @@ import 'package:reciperealm/widgets/LogoutButton.dart';
 import 'package:reciperealm/api/RecipeService.dart';
 import 'package:reciperealm/data/CreateRecipe.dart';
 
+import 'RootScreen.dart';
 import 'data/RecipeSteps.dart';
 
 class CreateRecipeView extends StatefulWidget {
@@ -63,11 +64,10 @@ class _CreateRecipeViewState extends State<CreateRecipeView> {
 
     try {
       final CreateRecipe createdRecipe = await RecipeService().createRecipe(newRecipe, widget.token);
-      Navigator.push(
+      Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(
-          builder: (context) => mainmenu(token: widget.token),  // Asegúrate de que MainMenu esté importado correctamente
-        ),
+        MaterialPageRoute(builder: (context) => RootScreen(token: widget.token)),
+            (Route<dynamic> route) => false,
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error al crear la receta: $e')));
