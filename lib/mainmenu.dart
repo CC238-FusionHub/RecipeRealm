@@ -92,7 +92,7 @@ class _mainmenuState extends State<mainmenu> with SingleTickerProviderStateMixin
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => RecipeDetailView(recipe: recipe),  // Asegúrate de pasar el objeto de receta correcto
+                                builder: (context) => RecipeDetailView(recipe: recipe),
                               ),
                             );
                           },

@@ -98,5 +98,25 @@ class RecipeService {
       throw Exception('Failed to delete recipe');
     }
   }
+  Future<List<Recipe>> getUserRecipes(String token) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/my-recipes'),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
 
+    if (response.statusCode == 200) {
+      final body = jsonDecode(response.body);
+      print('Response body: $body');
+      if (body is List) {
+        return body.map((dynamic item) => Recipe.fromJson(item)).toList();
+      } else {
+        throw Exception('Invalid format for user recipes');
+      }
+    } else {
+      throw Exception('Failed to load user recipes. Status code: ${response.statusCode}');
+    }
+  }
 }
